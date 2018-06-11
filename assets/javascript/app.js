@@ -63,15 +63,17 @@ var question9 = {
 
 var question10 = {
     question: "All of the following films are musicals except for which?",
-    answers: ["Sweeney Todd", "Whiplash", "Westside Story", "La La Land"]
+    answers: ["Sweeney Todd", "Whiplash", "Westside Story", "La La Land"],
+    correctAnswer: "1",
+    searchTerm: "Whiplash Film"
 }
 
-var questionList = [question1, question2] //question3, question4, question5, question6];
-var subtractableList; //Copying the list so we can pop items from it and still reset it at the end to the questionList
+var questionList = [question1, question2, question3, question4, question5, question6, question7, question8, question9, question10];
+var subtractableList; //Used on start to copy the questions list so we can pop items from it and still reset it at the end to the questionList
 var chosenQuestion;
-var correct = 0;
-var incorrect = 0;
-var noAnswer = 0;
+var correct;
+var incorrect;
+var noAnswer;
 var timer = 20;
 var intervalId;
 var timerRunning = false;
