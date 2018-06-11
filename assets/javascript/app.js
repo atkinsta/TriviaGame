@@ -34,11 +34,27 @@ var question6 = {
     correctAnswer: "0"
 }
 
-var questionList = [question1, question2, question3, question4, question5, question6]
+var question7 = {
+    question: "Which of these films has Christopher Nolan NOT directed?",
+    answers: ["Memento", "Inception", "The Prestige", "The Illusionist"],
+    correctAnswer: "3"
+}
+
+var questionList = [question1, question2, question3, question4, question5, question6];
+var subtractableList = questionList; //Copying the list so we can pop items from it and still reset it at the end to the questionList
 var chosenQuestion;
+var correct = 0;
+var incorrect = 0;
+var noAnswer = 0;
 
 function chooseQuestion() {
-    chosenQuestion = questionList[Math.floor(Math.random() * questionList.length)];
+    if (subtractableList.length > 0){
+        chosenQuestion = subtractableList[Math.floor(Math.random() * subtractableList.length)];
+        subtractableList.splice(subtractableList.indexOf(chosenQuestion), 1);
+    }
+    else {
+        console.log("out of words");
+    }
 }
 
 function setupQuestion() {
@@ -51,16 +67,19 @@ function setupQuestion() {
 
 $(".answer").on("click", function() {
     if ($(this).attr("value") === chosenQuestion.correctAnswer) {
-        console.log("correct");
+        correct++;
+        console.log("Correct", correct);
         chooseQuestion();
         setupQuestion();
     }
     else {
-        console.log("incorrect");
+        incorrect++;
+        console.log("Incorrect:", incorrect);
         chooseQuestion();
         setupQuestion();
+        console.log(subtractableList);
     }
 })
-
+console.log(subtractableList);
 chooseQuestion();
 setupQuestion();
