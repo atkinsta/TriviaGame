@@ -65,7 +65,7 @@ var question10 = {
     question: "All of the following films are musicals except for which?",
     answers: ["Sweeney Todd", "Whiplash", "Westside Story", "La La Land"],
     correctAnswer: "1",
-    searchTerm: "Scene Whiplash Tempo"
+    searchTerm: "Not quite my tempo"
 }
 
 var questionList = [question1, question2, question3, question4, question5, question6, question7, question8, question9, question10];
