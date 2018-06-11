@@ -68,7 +68,6 @@ function setupQuestion() {
 $(".answer").on("click", function() {
     if ($(this).attr("value") === chosenQuestion.correctAnswer) {
         correct++;
-        console.log("Correct", correct);
         chooseQuestion();
         setupQuestion();
     }
@@ -77,9 +76,7 @@ $(".answer").on("click", function() {
         console.log("Incorrect:", incorrect);
         chooseQuestion();
         setupQuestion();
-        console.log(subtractableList);
     }
 })
-console.log(subtractableList);
 chooseQuestion();
 setupQuestion();
