@@ -1,0 +1,42 @@
+h1 {
+    font-family: 'Limelight', cursive;
+    font-size: 6em;
+}
+
+h2 {
+    font-family: 'Limelight', cursive; 
+}
+
+h3 {
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+body {
+    background-image: url("../images/background.jpg");
+    background-repeat: repeat;
+}
+.answer {
+    padding: 20px 20px;
+    margin: 0 auto;
+}
+.answer:hover {
+    border: 3px solid #333;
+    background-color: rgb(51, 51, 51, 0.5)
+}
+
+#header {
+    width: 70%;
+    margin: 20px auto;
+}
+
+#question, #header {
+    background-color: rgba(255, 255, 255, 0.9)
+}
+
+.row {
+    overflow: hidden;
+}
+
+img {
+    float: right;
+}

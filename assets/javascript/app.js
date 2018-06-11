@@ -2,7 +2,7 @@ var question1 = {
     question: "Who directed the so-called Cornetto Trilogy?",
     answers: ["Michael Bay", "Edgar Wright", "Wes Anderson", "David Fincher"],
     correctAnswer: "1",
-    searchTerm: "Edgar Wright"
+    searchTerm: "Shaun of the Dead"
 }
 
 var question2 = {
@@ -23,14 +23,14 @@ var question4 = {
     question: "Which of the following is not a film directed by Michael Bay",
     answers: ["Avatar", "The Island", "Transformers", "Pacific Rim"],
     correctAnswer: "3",
-    searchTerm: "Michael Bay"
+    searchTerm: "Avatar Film"
 }
 
 var question5 = {
     question: "Which film is the latest installment of the Pirates of the Caribbean series?",
     answers: ["At World's End", "The Curse of the Black Pearl", "Dead Men Tell No Tales", "On Stranger Tides"],
     correctAnswer: "2",
-    searchTerm: "Jack Sparrow"
+    searchTerm: "Captain Jack Sparrow"
 }
 
 var question6 = {
