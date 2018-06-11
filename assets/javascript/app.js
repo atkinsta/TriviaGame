@@ -13,14 +13,14 @@ var question2 = {
 }
 
 var question3 = {
-    question: "Tom Cruise onced became a Samurai in this film",
+    question: "Tom Cruise onced became a Samurai in which film?",
     answers: ["The Last Samurai", "Shanghai Noon", "The Great Wall", "Eastenders"],
     correctAnswer: "0",
     searchTerm: "The Last Samurai"
 }
 
 var question4 = {
-    question: "Which of the following is not a film directed by Michael Bay",
+    question: "Which of the following is not a film directed by Michael Bay?",
     answers: ["Avatar", "The Island", "Transformers", "Pacific Rim"],
     correctAnswer: "3",
     searchTerm: "Avatar Film"
@@ -47,13 +47,32 @@ var question7 = {
     searchTerm: "Christopher Nolan"
 }
 
+var question8 = {
+    question: "Which of Alfred Hitchcock films is seemingly one continuous shot?",
+    answers: ["North by Northwest", "Dial M for Murder", "Rope", "Vertigo"],
+    correctAnswer: "2",
+    searchTerm: "Alfred Hitchcock"
+}
+
+var question9 = {
+    question: "Prior to 2001: A Space Odyssey, Stanley Kubrick directed which war satire film?",
+    answers: ["Dr. Strangelove", "Starship Troopers", "The Great Dictator", "M*A*S*H"],
+    correctAnswer: "0",
+    searchTerm: "Dr. Strangelove"
+}
+
+var question10 = {
+    question: "All of the following films are musicals except for which?",
+    answers: ["Sweeney Todd", "Whiplash", "Westside Story", "La La Land"]
+}
+
 var questionList = [question1, question2, question3, question4, question5, question6];
 var subtractableList = questionList; //Copying the list so we can pop items from it and still reset it at the end to the questionList
 var chosenQuestion;
 var correct = 0;
 var incorrect = 0;
 var noAnswer = 0;
-var timer = 30;
+var timer = 20;
 var intervalId;
 var timerRunning = false;
 
@@ -61,8 +80,13 @@ function countDown() {
     timer--;
     $("#timer").text("Time remaining: " + timer);
     if (timer <= 0) {
-        console.log("You lost!");
+        noAnswer++;
+        timeoutDisplay();
+        dynamicImage();
         stopTimer();
+        setTimeout(function () {
+            setupQuestion();
+        }, 5000);
     }
 };
 
@@ -74,8 +98,8 @@ function startTimer() {
 };
 
 function stopTimer() {
-    timer = 30;
-    $("#timer").text("Time Remaining: 30")
+    timer = 20;
+    $("#timer").text("Time Remaining: 20")
     clearInterval(intervalId);
     timerRunning = false;
 };
@@ -114,7 +138,7 @@ function lossDisplay() {
 
 function timeoutDisplay() {
     $("#answerholder").empty();
-    $("answerholder").append($("<h2>").text("Out of Time!"));
+    $("#answerholder").append($("<h2>").text("Out of Time!"));
     $("#answerholder").append($("<h3>").text("The answer was " + chosenQuestion.answers[chosenQuestion.correctAnswer]));
 }
 
@@ -129,11 +153,19 @@ function answerDisplay() {
 
 function finalscoreDisplay() {
     $("#question").empty();
-    $("#question").append("<h2>").text("Thank you for playing. Below is your final score");
-    $("#question").append("<h3> Total correct answers: &emsp;" + correct + "</h3>" +
+    $("#question").append("<h2> Thank you for playing. Below is your final score </h2>" +
+                          "<h3> Total correct answers: &emsp;" + correct + "</h3>" +
                           "<h3> Total incorrect answers: &emsp;" + incorrect + "</h3>" +
-                          "<h3> Total time-outs: &emsp;&emsp;" + noAnswer + "</h3>");
+                          "<h3> Total time-outs: &emsp;&emsp;" + noAnswer + "</h3>" +
+                          "<h1 class='answer' id='playagain'> Start over? </h1>")
 };
+
+function resetDisplay() {
+    subtractableList = questionList;
+    $("#questiontext").text("Welcome to Movie Trivia! Press start to being. You have 20 seconds for each question.")
+    $("answerholder").empty();
+    $("answerholder").append('<button id="startbutton" type="button" class="btn btn-info btn-large">Start!</button>');
+}
 
 function dynamicImage() {
     var APIKey = "BDU3KiPFpEdQOmsEDOWmrTfIrkdzo4Ji";
@@ -156,7 +188,7 @@ $(document).on("click", ".answer", function () {
         stopTimer();
         setTimeout(function () {
             setupQuestion();
-        }, 6000);
+        }, 5000);
     }
     else {
         incorrect++;
@@ -166,11 +198,14 @@ $(document).on("click", ".answer", function () {
         stopTimer();
         setTimeout(function () {
             setupQuestion()
-        }, 6000);
+        }, 5000);
     }
 })
 
-startTimer();
-console.log(timer);
-chooseQuestion();
-setupQuestion();
+$(document).on("click", "#startbutton", function() {
+    startTimer();
+    chooseQuestion();
+    setupQuestion();
+});
+
+$(document).on("click", "#startbutton", resetDisplay());
