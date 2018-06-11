@@ -46,6 +46,8 @@ var chosenQuestion;
 var correct = 0;
 var incorrect = 0;
 var noAnswer = 0;
+var timer = 30;
+var intervalId;
 
 function chooseQuestion() {
     if (subtractableList.length > 0){
@@ -65,6 +67,15 @@ function setupQuestion() {
     }
 }
 
+function countDown() {
+    timer--;
+    $("#timer").text("Time Remaining: " + timer);
+}
+
+function startTimer() {
+    intervalId = setInterval(countDown(), 1000);
+}
+
 $(".answer").on("click", function() {
     if ($(this).attr("value") === chosenQuestion.correctAnswer) {
         correct++;
@@ -78,5 +89,8 @@ $(".answer").on("click", function() {
         setupQuestion();
     }
 })
+
+startTimer();
+console.log(timer);
 chooseQuestion();
 setupQuestion();
