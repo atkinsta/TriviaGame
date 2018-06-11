@@ -66,8 +66,8 @@ var question10 = {
     answers: ["Sweeney Todd", "Whiplash", "Westside Story", "La La Land"]
 }
 
-var questionList = [question1, question2, question3, question4, question5, question6];
-var subtractableList = questionList; //Copying the list so we can pop items from it and still reset it at the end to the questionList
+var questionList = [question1, question2] //question3, question4, question5, question6];
+var subtractableList; //Copying the list so we can pop items from it and still reset it at the end to the questionList
 var chosenQuestion;
 var correct = 0;
 var incorrect = 0;
@@ -87,7 +87,7 @@ function countDown() {
         chooseQuestion();
         setTimeout(function () {
             setupQuestion();
-        }, 5000);
+        }, 4000);
     }
 };
 
@@ -110,7 +110,8 @@ function chooseQuestion() {
         chosenQuestion = subtractableList[Math.floor(Math.random() * subtractableList.length)];
         subtractableList.splice(subtractableList.indexOf(chosenQuestion), 1);
     }
-    else {
+    else { //This is taken care of in the click handler, just added it here for a safety net.
+        stopTimer();
         finalscoreDisplay();
     }
 };
@@ -143,29 +144,30 @@ function timeoutDisplay() {
     $("#answerholder").append($("<h3>").text("The answer was " + chosenQuestion.answers[chosenQuestion.correctAnswer]));
 }
 
-function answerDisplay() { 
+function answerDisplay() {
     $("#imageholder").attr("src", "assets/images/trivia.gif")
     $("#answerholder").empty();
     $("#answerholder").append('<h3 class="answer" id="answer0" value="0"></h3>' +
-                              '<h3 class="answer" id="answer1" value="1"></h3>' + 
-                              '<h3 class="answer" id="answer2" value="2"></h3>' +
-                              '<h3 class="answer" id="answer3" value="3"></h3>')
+        '<h3 class="answer" id="answer1" value="1"></h3>' +
+        '<h3 class="answer" id="answer2" value="2"></h3>' +
+        '<h3 class="answer" id="answer3" value="3"></h3>')
 };
 
 function finalscoreDisplay() {
-    $("#question").empty();
-    $("#question").append("<h2> Thank you for playing. Below is your final score </h2>" +
-                          "<h3> Total correct answers: &emsp;" + correct + "</h3>" +
-                          "<h3> Total incorrect answers: &emsp;" + incorrect + "</h3>" +
-                          "<h3> Total time-outs: &emsp;&emsp;" + noAnswer + "</h3>" +
-                          "<h1 class='answer' id='playagain'> Start over? </h1>")
+    chosenQuestion = "";
+    $("#questiontext").text("Thank you for playing. Below is your final score");
+    $("#answerholder").empty();
+    $("#answerholder").append("<h3> Total correct answers: &emsp;" + correct + "</h3>" +
+        "<h3> Total incorrect answers: &emsp;" + incorrect + "</h3>" +
+        "<h3> Total time-outs: &emsp;&emsp;" + noAnswer + "</h3>" +
+        "<h1 class='hover' id='playagain'> Start over? </h1>");
+    $("#imageholder").attr("src", "assets/images/trivia.gif");
 };
 
 function resetDisplay() {
-    subtractableList = questionList;
-    $("#questiontext").text("Welcome to Movie Trivia! Press start to being. You have 20 seconds for each question.")
-    $("answerholder").empty();
-    $("answerholder").append('<button id="startbutton" type="button" class="btn btn-info btn-large">Start!</button>');
+    $("#questiontext").text("Welcome to Movie Trivia! Press start to being. You have 20 seconds for each question.");
+    $("#answerholder").empty();
+    $("#answerholder").append('<button id="startbutton" type="button" class="btn btn-info btn-large">Start!</button>');
 }
 
 function dynamicImage() {
@@ -174,8 +176,7 @@ function dynamicImage() {
     $.ajax({
         url: APIUrl,
         method: "GET"
-    }).then(function(response) {
-        console.log(response);
+    }).then(function (response) {
         $("#imageholder").attr("src", response.data[0].images.original.url);
     });
 };
@@ -185,28 +186,47 @@ $(document).on("click", ".answer", function () {
         correct++;
         dynamicImage();
         winDisplay();
-        chooseQuestion();
         stopTimer();
-        setTimeout(function () {
-            setupQuestion();
-        }, 5000);
+        if (subtractableList.length > 0) { //If there are still words, we want to choose another question. Otherwise, we want to move into the end screen.
+            chooseQuestion();               //Goes here because we need to still display images, show if they won, and add one to their correct count. 
+            setTimeout(function () {
+                setupQuestion();
+            }, 4000);
+        }
+        else 
+            setTimeout(function () {
+                finalscoreDisplay();
+            }, 4000);
     }
     else {
         incorrect++;
         dynamicImage();
         lossDisplay();
-        chooseQuestion();
         stopTimer();
-        setTimeout(function () {
-            setupQuestion()
-        }, 5000);
+        if (subtractableList.length > 0) {
+            chooseQuestion();
+            setTimeout(function () {
+                setupQuestion()
+            }, 4000);
+        }
+        else
+            setTimeout(function() {
+                finalscoreDisplay();
+            }, 4000);
     }
 })
 
-$(document).on("click", "#startbutton", function() {
+$(document).on("click", "#startbutton", function () {
+    subtractableList = questionList.slice(); //copying the original list of questions to start over and repopulate subtractableList.
+    timer = 20;
+    correct = 0;
+    incorrect = 0;
+    noAnswer = 0;
     startTimer();
     chooseQuestion();
     setupQuestion();
 });
 
-$(document).on("click", "#startbutton", resetDisplay());
+$(document).on("click", "#playagain", function () {
+    resetDisplay()
+});
