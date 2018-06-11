@@ -84,6 +84,7 @@ function countDown() {
         timeoutDisplay();
         dynamicImage();
         stopTimer();
+        chooseQuestion();
         setTimeout(function () {
             setupQuestion();
         }, 5000);
