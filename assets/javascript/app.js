@@ -86,10 +86,17 @@ function countDown() {
         timeoutDisplay();
         dynamicImage();
         stopTimer();
-        chooseQuestion();
-        setTimeout(function () {
-            setupQuestion();
-        }, 4000);
+        if (subtractableList.length > 0) {
+            chooseQuestion();
+            setTimeout(function () {
+                setupQuestion();
+            }, 4000);
+        }
+        else {
+            setTimeout(function () {
+                finalscoreDisplay();
+            }, 4000);
+        }
     }
 };
 
@@ -195,7 +202,7 @@ $(document).on("click", ".answer", function () {
                 setupQuestion();
             }, 4000);
         }
-        else 
+        else
             setTimeout(function () {
                 finalscoreDisplay();
             }, 4000);
@@ -212,7 +219,7 @@ $(document).on("click", ".answer", function () {
             }, 4000);
         }
         else
-            setTimeout(function() {
+            setTimeout(function () {
                 finalscoreDisplay();
             }, 4000);
     }
